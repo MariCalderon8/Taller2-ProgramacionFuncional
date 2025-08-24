@@ -1,5 +1,4 @@
 # Taller 2 - ProgramacionFuncional
-# Taller 2-ProgramacionFuncional
 **Presentado Por:**
 
 - Mariluz Calderón Guevara
