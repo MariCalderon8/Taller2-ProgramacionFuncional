@@ -8,8 +8,6 @@
 
 ### Ejemplos de los Pilares de la programación funcional
 
-List item
-
 1. [Inmutabilidad](#inmutabilidad)
 2. [Funciones Puras](#funciones-puras)
 3. [Expresiones Lambda](#expresiones-lambda)
@@ -17,7 +15,7 @@ List item
 5. [Evaluación Perezosa (Lazy Evaluation)](#evaluación-perezosa-lazy-evaluation)
 6. [Composición de Funciones](#composición-de-funciones)
 
-## 1. Inmutabilidad
+## Inmutabilidad
 **Ejemplo 1**
 ```kotlin
 
@@ -26,7 +24,7 @@ List item
 ```kotlin
 
 ```
-## 2. Funciones Puras
+## Funciones Puras
 
 **Ejemplo 1**
 Una función pura siempre devuelve el mismo resultado cuando se le da el mismo argumento.  En este caso, si enviamos `19` como argumento, el resultado siempre será `true`.  
@@ -56,7 +54,7 @@ fun addStringToGlobal(newString: String){
 addStringToGlobal("Mundo") // Imprime "Hola Mundo"
 addStringToGlobal("Mundo") // Imprime "Hola Mundo Mundo"
 ```
-## 3. Expresiones Lambda
+## Expresiones Lambda
 **Ejemplo 1:**
 Las expresiones lambda permiten definir funciones de forma anónima (sin nombre) y asignarlas a variables, así la función puede reutilizarse como si fuera una función normal.
 ```kotlin
@@ -77,7 +75,7 @@ println(calcularPromedio(listOf(10, 20, 30, 40))) // 25
 ```
 Las expresiones lambda también pueden pasarse por parámetros (funciones de orden superior)
 
-## 4. Funciones de Orden Superior
+## Funciones de Orden Superior
 **Ejemplo 1**
 ```kotlin
 
@@ -86,7 +84,7 @@ Las expresiones lambda también pueden pasarse por parámetros (funciones de ord
 ```kotlin
 
 ```
-## 5. Evaluación perezosa (Lazy Evaluation)
+## Evaluación perezosa (Lazy Evaluation)
 **Ejemplo 1**
 ```kotlin
 
@@ -95,7 +93,7 @@ Las expresiones lambda también pueden pasarse por parámetros (funciones de ord
 ```kotlin
 
 ```
-## 6. Composición de Funciones
+## Composición de Funciones
 **Ejemplo 1**
 ```kotlin
 
