@@ -18,11 +18,32 @@
 ## Inmutabilidad
 **Ejemplo 1**
 ```kotlin
+// Inmutable - usando val
+val tareas = listOf("Estudiar Kotlin", "Hacer ejercicio", "Leer libro")
+val tareasActualizadas = tareas + "Programar app" // Crea una nueva lista
+
+// Evitar - mutable
+var tareasMutable = mutableListOf("Estudiar Kotlin", "Hacer ejercicio", "Leer libro")
+tareasMutable.add("Programar app") // Modifica la lista original
+
+data class Tarea(val descripcion: String, val completada: Boolean)
+val tarea = Tarea("Estudiar Kotlin", false)
+val tareaCompletada = tarea.copy(completada = true)
 
 ```
 **Ejemplo 2**
 ```kotlin
+// Inmutable - usando val
+val materias = listOf("Matemáticas", "Física", "Programación")
+val materiasNuevas = materias + "Base de Datos" // Crea una nueva lista
 
+// Evitar - mutable  
+var materiasMutable = mutableListOf("Matemáticas", "Física", "Programación")
+materiasMutable.add("Base de Datos") // Modifica la lista original
+
+data class Estudiante(val nombre: String, val semestre: Int, val promedio: Double)
+val estudiante = Estudiante("Ana", 3, 4.2)
+val estudianteActualizado = estudiante.copy(semestre = 4, promedio = 4.5)
 ```
 ## Funciones Puras
 
