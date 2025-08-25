@@ -41,7 +41,7 @@ fun main() {
             }
 
             "3" -> {
-                println("--------------- Editar usuario (Deje vacío para no editar) ---------------")
+                println("--------------- Editar usuario (Deje vacío para no editar el campo que aparece en pantalla) ---------------")
                 println("Ingresa el ID del usuario a editar:")
                 readLine()?.toIntOrNull()?.let { userId ->
                     println("Nuevo nombre:")
