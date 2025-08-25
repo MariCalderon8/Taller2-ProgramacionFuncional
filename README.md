@@ -16,7 +16,7 @@
 6. [Composición de Funciones](#composición-de-funciones)
 
 ## Inmutabilidad
-**Ejemplo 1**
+**Ejemplo 1:**
 ```kotlin
 // Inmutable - usando val
 val tareas = listOf("Estudiar Kotlin", "Hacer ejercicio", "Leer libro")
@@ -31,7 +31,7 @@ val tarea = Tarea("Estudiar Kotlin", false)
 val tareaCompletada = tarea.copy(completada = true)
 
 ```
-**Ejemplo 2**
+**Ejemplo 2:**
 ```kotlin
 // Inmutable - usando val
 val materias = listOf("Matemáticas", "Física", "Programación")
@@ -115,11 +115,49 @@ Las expresiones lambda también pueden pasarse por parámetros (funciones de ord
 
 ```
 ## Composición de Funciones
-**Ejemplo 1**
+**Ejemplo 1:**
+En este ejemplo, se crean funciones de extensión pequeñas `(tieneArroba, tienePunto, noEstaVacio)` que se combinan en validarEmail para crear una validación compleja. También se muestra procesarEmail que encadena operadores para limpiar el email paso a paso.
 ```kotlin
+// Composición con funciones de extensión:
+fun String.tieneArroba(): Boolean = this.contains("@")
+fun String.tienePunto(): Boolean = this.contains(".")
+fun String.noEstaVacio(): Boolean = this.isNotEmpty()
 
+fun validarEmail(email: String): Boolean {
+    return email.noEstaVacio() && email.tieneArroba() && email.tienePunto()
+}
+
+// Composición con operadores:
+val procesarEmail = { email: String ->
+    email.trim()
+        .lowercase()
+        .replace(" ", "")
+        .takeIf { it.contains("@") && it.contains(".") }
+        ?: "email_invalido@ejemplo.com"
+}
 ```
-**Ejemplo 2**
+**Ejemplo 2:**
+En este ejemplo, las funciones de extensión `esPositivo`, `esPar` y `duplicar` se combinan en procesarNumero para clasificar números según sus propiedades. La función transformarNumeros encadena operadores para filtrar números positivos, elevarlos al cuadrado, quedarse solo con los pares, ordenarlos y tomar los primeros 5.
 ```kotlin
+// Composición con funciones de extensión:
+fun Int.esPositivo(): Boolean = this > 0
+fun Int.esPar(): Boolean = this % 2 == 0
+fun Int.duplicar(): Int = this * 2
 
+fun procesarNumero(numero: Int): String {
+    return when {
+        numero.esPositivo() && numero.esPar() -> "Número par positivo: ${numero.duplicar()}"
+        numero.esPositivo() -> "Número impar positivo: $numero"
+        else -> "Número no válido"
+    }
+}
+
+// Composición con operadores:
+val transformarNumeros = { numeros: List<Int> ->
+    numeros.filter { it > 0 }
+        .map { it * it }
+        .filter { it % 2 == 0 }
+        .sorted()
+        .take(5)
+}
 ```
