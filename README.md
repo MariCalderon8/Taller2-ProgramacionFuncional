@@ -48,12 +48,14 @@ val estudianteActualizado = estudiante.copy(semestre = 4, promedio = 4.5)
 ## Funciones Puras
 
 **Ejemplo 1**
+
 Una función pura siempre devuelve el mismo resultado cuando se le da el mismo argumento.  En este caso, si enviamos `19` como argumento, el resultado siempre será `true`.  
 Si enviamos `5`, el resultado siempre será `false`.
 ```kotlin
 fun esMayorDeEdad(edad:Int): Boolean = edad >= 18
 ```
 **Ejemplo 2**
+
 Lo mismo ocurre en el siguiente ejemplo: el factorial de un número siempre será el mismo mientras el argumento no cambie. Si ejecutamos `factorial(5)` siempre obtendremos `120`.
 ```kotlin
 fun factorial(num: Int): Int {  
@@ -76,7 +78,8 @@ addStringToGlobal("Mundo") // Imprime "Hola Mundo"
 addStringToGlobal("Mundo") // Imprime "Hola Mundo Mundo"
 ```
 ## Expresiones Lambda
-**Ejemplo 1:**
+**Ejemplo 1**
+
 Las expresiones lambda permiten definir funciones de forma anónima (sin nombre) y asignarlas a variables, así la función puede reutilizarse como si fuera una función normal.
 ```kotlin
 val concatenar = { a: String, b: String -> "$a $b" }  
@@ -84,7 +87,8 @@ println(concatenar("Texto","Concatenado"))
 ```
 En este ejemplo, `concatenar` actúa como una función que recibe dos `String` y retorna la unión de ambos.
 
-**Ejemplo 2:**
+**Ejemplo 2**
+
 En este ejemplo, la lambda `calcularPromedio` recibe una lista de enteros, calcula la suma de todos los elementos y la divide entre la cantidad de elementos.
 ```kotlin
 val calcularPromedio = { numeros: List<Int> ->
@@ -98,21 +102,71 @@ Las expresiones lambda también pueden pasarse por parámetros (funciones de ord
 
 ## Funciones de Orden Superior
 **Ejemplo 1**
-```kotlin
 
+En las funciones de orden superior se puede enviar otra función por argumento.
+```kotlin
+fun esPar(n: Int) = n % 2 == 0
+
+fun filtrarLista(numbers: List<Int>, condition: (Int) -> Boolean): List<Int> {
+    return numbers.filter(condition)
+}
+
+val nums = listOf(1, 2, 3, 4, 5, 6)
+val pares = filtrarLista(nums, ::esPar)
+println("Números pares: $pares")
 ```
+En este caso la función `filtrarLista` recibe por parámetros una lista de números y una función como condición para filtrarlos (si son pares).
+
 **Ejemplo 2**
-```kotlin
 
+Estas funciones también pueden devolver otra función.
+```kotlin
+fun saludar(saludo: String): (String) -> Unit {
+    return { nombre ->
+        println("$saludo, $nombre!")
+    }
+}
+
+val sayHello = saludar("Hola")
+val sayWelcome = saludar("Bienbenido")
+
+sayHello("Pepe")   // imprime: Hola, Pepe!
+sayWelcome("Fulano")   // imprime: Bienvenido, Fulano!
 ```
+En este caso la función `saludar` devuelve otra función que imprime el saludo que se envío por parametro a la función de orden superior y el nombre que recibe por parámetro la otra función. Al guardar el retorno en una variable, al llamar esa variable estaría invocando la función del retorno. 
 ## Evaluación perezosa (Lazy Evaluation)
 **Ejemplo 1**
-```kotlin
 
+En este ejemplo se usa evaluación perezosa para transformar y filtrar una lista. Primero convierte cada nombre a mayúscula y luego filtra los que empiezan por "A". Sin embargo, estas operaciones no se ejecutan inmediatamente, sino hasta que realmente se solicita el resultado con `toList()`
+```kotlin
+val nombres = listOf("Ana", "Pedro", "Lucía", "Juan", "Antonio")
+    .asSequence()
+    .map {
+        println("Procesando $it")
+        it.uppercase()
+    }
+    .filter {
+        println("Verificando $it")
+        it.startsWith("A")
+    }
+
+println("Lista lista, aún no procesada")
+println("Resultados finales: ${nombres.toList()}") // ['ANA','ANTONIO']
 ```
 **Ejemplo 2**
-```kotlin
 
+En este caso, la secuencia busca la primera galleta de chocolate.
+Gracias a la evaluación perezosa, no revisa toda la lista, sino que se detiene en cuanto encuentra la primera coincidencia.
+```kotlin
+val galletas = listOf("vainilla", "fresa", "chocolate", "limón", "chocolate")
+val primeraChocoSecuencia = galletas
+    .asSequence()
+    .map {
+        println("Revisando galleta: $it")
+        it
+    }
+    .first { it == "chocolate" }
+println("Primera galleta de chocolate: $primeraChocoSecuencia")
 ```
 ## Composición de Funciones
 **Ejemplo 1:**
