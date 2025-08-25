@@ -16,7 +16,7 @@
 6. [Composición de Funciones](#composición-de-funciones)
 
 ## Inmutabilidad
-**Ejemplo 1:**
+**Ejemplo 1**
 ```kotlin
 // Inmutable - usando val
 val tareas = listOf("Estudiar Kotlin", "Hacer ejercicio", "Leer libro")
@@ -31,7 +31,7 @@ val tarea = Tarea("Estudiar Kotlin", false)
 val tareaCompletada = tarea.copy(completada = true)
 
 ```
-**Ejemplo 2:**
+**Ejemplo 2**
 ```kotlin
 // Inmutable - usando val
 val materias = listOf("Matemáticas", "Física", "Programación")
@@ -169,7 +169,8 @@ val primeraChocoSecuencia = galletas
 println("Primera galleta de chocolate: $primeraChocoSecuencia")
 ```
 ## Composición de Funciones
-**Ejemplo 1:**
+**Ejemplo 1**
+
 En este ejemplo, se crean funciones de extensión pequeñas `(tieneArroba, tienePunto, noEstaVacio)` que se combinan en validarEmail para crear una validación compleja. También se muestra procesarEmail que encadena operadores para limpiar el email paso a paso.
 ```kotlin
 // Composición con funciones de extensión:
@@ -190,7 +191,8 @@ val procesarEmail = { email: String ->
         ?: "email_invalido@ejemplo.com"
 }
 ```
-**Ejemplo 2:**
+**Ejemplo 2**
+
 En este ejemplo, las funciones de extensión `esPositivo`, `esPar` y `duplicar` se combinan en procesarNumero para clasificar números según sus propiedades. La función transformarNumeros encadena operadores para filtrar números positivos, elevarlos al cuadrado, quedarse solo con los pares, ordenarlos y tomar los primeros 5.
 ```kotlin
 // Composición con funciones de extensión:

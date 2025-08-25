@@ -5,40 +5,60 @@ fun main() {
     printMenu()
 
     while (true){
-        var userResponse = readLine()
+        val userResponse = readLine()
         when (userResponse){
             "1" ->{
                 println("--------------- Buscar usuario ---------------")
                 println("Ingresa el id del usuario:")
-                val userId = readLine()!!.toInt()
-                val user = findUser(userId)
-                if (user != null) {
-                    with(user) {
-                        println("""
-                            ID: $id
-                            Nombre: $name
-                            Correo: $email
-                        """.trimIndent())
-                    }
-                } else {
-                    println("No pudimos encontrar el usuario que estabas buscando.")
-                }
+                readLine()?.toIntOrNull()?.let { userId ->
+                    findUser(userId)?.let { user ->
+                        with(user) {
+                            println("""
+                                    ID: $id
+                                    Nombre: $name
+                                    Correo: $email
+                                """.trimIndent())
+                        }
+                    } ?: println("No pudimos encontrar el usuario que estabas buscando.")
+                } ?: println("ID inválido. Por favor ingresa un número.")
             }
+
             "2" -> {
                 println("--------------- Crear usuario ---------------")
                 println("Ingresa el id del usuario:")
-                val userId = readLine()!!.toInt()
+                val userId = readLine()?.toIntOrNull()
                 println("Ingresa el nombre del usuario:")
-                val name = readLine()!!
+                val name = readLine()
                 println("Ingresa el correo del usuario:")
-                val email = readLine()!!
-                createUser(userId, name, email)
+                val email = readLine()
+                when {
+                    userId == null -> println("ID inválido")
+                    name.isNullOrBlank() -> println("Nombre no puede estar vacío")
+                    email.isNullOrBlank() -> println("Correo no puede estar vacío")
+                    !isValidEmail(email) -> println("Formato de correo inválido")
+                    else -> createUser(userId, name, email)
+                }
             }
+
             "3" -> {
-
+                println("--------------- Editar usuario (Deje vacío para no editar) ---------------")
+                println("Ingresa el ID del usuario a editar:")
+                readLine()?.toIntOrNull()?.let { userId ->
+                    println("Nuevo nombre:")
+                    val name = readLine()
+                    println("Nuevo correo:")
+                    val email = readLine()
+                    println(email)
+                    updateUser(userId, name, email)
+                } ?: println("ID inválido")
             }
-            "4" -> {
 
+            "4" -> {
+                println("--------------- Eliminar usuario ---------------")
+                println("Ingresa el ID del usuario a eliminar:")
+                readLine()?.toIntOrNull()?.let { userId ->
+                    deleteUser(userId)
+                } ?: println("ID inválido")
             }
             "5" -> {
                 printAllUser()
@@ -59,18 +79,45 @@ fun createUser(id: Int, name: String, email: String) {
         println("Ya existe un usuario registrado con ese id")
         return
     }
-
     val user = User().apply {
         this.id = id
         this.name = name
         this.email = email
+    }.also {
+        println("Usuario $id creado correctamente")
     }
     users.add(user)
-    println("Usuario Creado")
 }
 
 fun findUser(id: Int): User? {
     return users.find { it.id == id }
+}
+
+fun updateUser(id: Int, newName: String?, newEmail: String?) {
+    findUser(id)?.let { user ->
+        user.apply {
+            newName?.takeIf { it.isNotBlank() }?.let {
+                user.name = it
+            }
+            newEmail?.takeIf { it.isNotBlank() }?.let {
+                if (isValidEmail(it)) {
+                    user.email = it
+                } else {
+                    println("Nuevo email no válido: $it")
+                }
+            }
+        }.also {
+            println("Usuario ${it.id} editado correctamente")
+        }
+    } ?: println("Usuario no encontrado")
+}
+
+fun deleteUser(id: Int) {
+    findUser(id)?.let { user ->
+        users.remove(user).also {
+            println("Usuario ${user.name} eliminado correctamente")
+        }
+    } ?: println("Usuario no encontrado")
 }
 
 fun printAllUser(){
@@ -80,7 +127,7 @@ fun printAllUser(){
     }
     println("--------------- Lista de usuarios: ---------------")
     users.forEach { user ->
-        with(user) { // accedo a las propiedades sin repetir user.
+        with(user) { // accede a las propiedades sin repetir user.
             println("""
                 ID: $id
                 Nombre: $name
@@ -91,6 +138,12 @@ fun printAllUser(){
     }
     val usersAmount = users.run { "Total de usuarios: ${size}" }
     println(usersAmount)
+}
+
+fun isValidEmail(email: String): Boolean {
+    return email.let {
+        it.contains("@") && it.contains(".") && it.length > 5
+    }
 }
 
 fun printMenu(){
